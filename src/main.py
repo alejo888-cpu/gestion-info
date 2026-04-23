@@ -1,20 +1,32 @@
-print("Sistema Listo")
+from service import crear_registro, listar_registros
 
-# Crear un algoritmo que lea 3 numero, los alamcene en una lista y los ordene de mayor a menor.
-# Manejo de funciones, listas, menu intereactivo y manejo de errores.
+def menu():
+    while True:
+        print("--- MENU ---")
+        print("1. Crear registro")
+        print("2. Listar registros")
+        print("3. Salir")
 
-# Instalar colorama: pip install colorama
-from colorama import Fore, Style, Back, init
-init(autoreset=True)
+        opcion = input("Seleccione una opcion: ")
 
-print(Fore.BLUE + "==============================================================")
-print(Back.CYAN + "================ Manejo De Listas y Errores ==================")
-print(Style.DIM + "========================== By CAJX ===========================")
-print(Fore.BLUE + "==============================================================")
+        if opcion == "1":
+            id = input("Ingrese ID: ")
+            nombre = input("Ingrese nombre: ")
 
-try:
-    # Algoritmo a ejecutar
-    print("Ingrese 3 numeros para ordenarlos de mayor a menor")
+            resultado = crear_registro(id, nombre)
+            print(resultado)
 
-except ValueError: #TypeError, IndexError, ValueError
-    print("Error: ingrese un numero valido")
+        elif opcion == "2":
+            registros = listar_registros()
+            print("--- REGISTROS ---")
+            for r in registros:
+                print(r)
+
+        elif opcion == "3":
+            print("Saliendo...")
+            break
+
+        else:
+            print("Opcion invalida")
+
+menu()
