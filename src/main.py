@@ -2,12 +2,12 @@ from service import crear_registro, listar_registros
 
 def menu():
     while True:
-        print("--- MENU ---")
+        print("\n--- MENÚ ---")
         print("1. Crear registro")
         print("2. Listar registros")
         print("3. Salir")
 
-        opcion = input("Seleccione una opcion: ")
+        opcion = input("Seleccione una opción: ")
 
         if opcion == "1":
             id = input("Ingrese ID: ")
@@ -18,7 +18,7 @@ def menu():
 
         elif opcion == "2":
             registros = listar_registros()
-            print("--- REGISTROS ---")
+            print("\n--- REGISTROS ---")
             for r in registros:
                 print(r)
 
@@ -27,6 +27,6 @@ def menu():
             break
 
         else:
-            print("Opcion invalida")
+            print("Opción inválida")
 
 menu()
