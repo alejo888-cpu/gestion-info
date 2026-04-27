@@ -1,29 +1,33 @@
-from service import crear_registro, listar_registros
+from service import *
 
 def menu():
     while True:
-        print("\n--- MENÚ ---")
-        print("1. Crear registro")
-        print("2. Listar registros")
-        print("3. Salir")
+        print("--- MENÚ ---")
+        print("1. Crear")
+        print("2. Listar")
+        print("3. Buscar")
+        print("4. Actualizar")
+        print("5. Eliminar")
+        print("6. Salir")
 
-        opcion = input("Seleccione una opción: ")
+        op = input("Opción: ")
 
-        if opcion == "1":
-            id = input("Ingrese ID: ")
-            nombre = input("Ingrese nombre: ")
+        if op == "1":
+            print(new_register(input("ID: "), input("Nombre: ")))
 
-            resultado = crear_registro(id, nombre)
-            print(resultado)
+        elif op == "2":
+            print(list_records())
 
-        elif opcion == "2":
-            registros = listar_registros()
-            print("\n--- REGISTROS ---")
-            for r in registros:
-                print(r)
+        elif op == "3":
+            print(search_record(input("ID: ")))
 
-        elif opcion == "3":
-            print("Saliendo...")
+        elif op == "4":
+            print(update_record(input("ID: "), input("Nuevo nombre: ")))
+
+        elif op == "5":
+            print(delete_record(input("ID: ")))
+
+        elif op == "6":
             break
 
         else:
