@@ -1,11 +1,12 @@
 from colorama import Fore, Style, Back, init
 from service import *
+from integration import export_to_csv
 
 init(autoreset=True)
 
 def mostrar_menu():
-    print(Fore.BLUE + "\n==============================")
-    print(Back.CYAN + "      SISTEMA DE REGISTROS     ")
+    print(Fore.BLUE + "==============================")
+    print(Back.CYAN + "     SISTEMA DE REGISTROS     ")
     print(Fore.BLUE + "==============================")
     print("1. Crear registro")
     print("2. Listar registros")
@@ -13,7 +14,7 @@ def mostrar_menu():
     print("4. Actualizar registro")
     print("5. Eliminar registro")
     print("6. Salir")
-
+    print("7. Exportar reporte CSV")
 
 def ejecutar_menu():
     while True:
@@ -54,8 +55,31 @@ def ejecutar_menu():
                 print(Fore.CYAN + "Saliendo del sistema...")
                 break
 
+            elif opcion == 7:
+                print("1. Exportar normal")
+                print("2. Ordenar por nombre")
+                print("3. Filtrar por nombre")
+
+                sub = input("Seleccione: ")
+
+                if sub == "1":
+                    print(export_to_csv())
+
+                elif sub == "2":
+                    print(export_to_csv(ordenar_por="nombre"))
+
+                elif sub == "3":
+                    texto = input("Ingrese nombre a filtrar: ")
+                    print(export_to_csv(filtro_nombre=texto))
+
+                else:
+                    print("Opción inválida")
+
             else:
                 print(Fore.RED + "Opción inválida")
 
         except ValueError:
             print(Fore.RED + "Error: Debe ingresar un número válido")
+
+if __name__ == "__main__":
+    ejecutar_menu()
