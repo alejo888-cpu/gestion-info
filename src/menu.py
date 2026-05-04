@@ -1,10 +1,17 @@
-from colorama import Fore, Style, Back, init
-from service import *
-from integration import export_to_csv
+from colorama import Fore, Back, init
+from src.service import (
+    new_register,
+    list_records,
+    search_record,
+    update_record,
+    delete_record
+)
+from src.integration import export_to_csv
 
 init(autoreset=True)
 
-def mostrar_menu():
+
+def mostrar_menu() -> None:
     print(Fore.BLUE + "==============================")
     print(Back.CYAN + "     SISTEMA DE REGISTROS     ")
     print(Fore.BLUE + "==============================")
@@ -16,7 +23,8 @@ def mostrar_menu():
     print("6. Salir")
     print("7. Exportar reporte CSV")
 
-def ejecutar_menu():
+
+def ejecutar_menu() -> None:
     while True:
         mostrar_menu()
 
@@ -24,13 +32,16 @@ def ejecutar_menu():
             opcion = int(input(Fore.YELLOW + "Seleccione una opción: "))
 
             if opcion == 1:
-                id = input("Ingrese ID: ")
+                record_id = input("Ingrese ID: ")
                 nombre = input("Ingrese nombre: ")
-                print(Fore.GREEN + new_register(id, nombre))
+
+                resultado = new_register(record_id, nombre)
+                print(Fore.GREEN + resultado)
 
             elif opcion == 2:
                 datos = list_records()
                 print(Fore.GREEN + "\n--- REGISTROS ---")
+
                 if isinstance(datos, str):
                     print(datos)
                 else:
@@ -38,25 +49,28 @@ def ejecutar_menu():
                         print(f"ID: {r['id']} | Nombre: {r['nombre']}")
 
             elif opcion == 3:
-                id = input("Ingrese ID a buscar: ")
-                resultado = search_record(id)
+                record_id = input("Ingrese ID a buscar: ")
+                resultado = search_record(record_id)
                 print(Fore.GREEN + str(resultado))
 
             elif opcion == 4:
-                id = input("Ingrese ID a actualizar: ")
-                nuevo = input("Nuevo nombre: ")
-                print(Fore.GREEN + update_record(id, nuevo))
+                record_id = input("Ingrese ID a actualizar: ")
+                nuevo_nombre = input("Nuevo nombre: ")
+
+                resultado = update_record(record_id, nuevo_nombre)
+                print(Fore.GREEN + resultado)
 
             elif opcion == 5:
-                id = input("Ingrese ID a eliminar: ")
-                print(Fore.RED + delete_record(id))
+                record_id = input("Ingrese ID a eliminar: ")
+                resultado = delete_record(record_id)
+                print(Fore.RED + resultado)
 
             elif opcion == 6:
                 print(Fore.CYAN + "Saliendo del sistema...")
                 break
 
             elif opcion == 7:
-                print("1. Exportar normal")
+                print("\n1. Exportar normal")
                 print("2. Ordenar por nombre")
                 print("3. Filtrar por nombre")
 
@@ -73,13 +87,14 @@ def ejecutar_menu():
                     print(export_to_csv(filtro_nombre=texto))
 
                 else:
-                    print("Opción inválida")
+                    print(Fore.RED + "Opción inválida")
 
             else:
                 print(Fore.RED + "Opción inválida")
 
         except ValueError:
             print(Fore.RED + "Error: Debe ingresar un número válido")
+
 
 if __name__ == "__main__":
     ejecutar_menu()

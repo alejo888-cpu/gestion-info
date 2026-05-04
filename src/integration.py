@@ -1,8 +1,25 @@
+import os
+from typing import Optional
 import pandas as pd
-from file import load_data
+from src.file import load_data
 
-# 🔥 Uso de **kwargs (requisito obligatorio)
-def export_to_csv(**kwargs):
+
+def export_to_csv(
+    ordenar_por: Optional[str] = None,
+    filtro_nombre: Optional[str] = None
+) -> str:
+    """
+    Exporta los registros a un archivo CSV usando pandas.
+
+    Permite ordenar y filtrar los datos dinámicamente.
+
+    Args:
+        ordenar_por (str, opcional): Campo por el cual ordenar (ej: "nombre")
+        filtro_nombre (str, opcional): Texto para filtrar nombres
+
+    Returns:
+        str: Mensaje con el resultado de la operación
+    """
     try:
         data = load_data()
 
@@ -11,16 +28,19 @@ def export_to_csv(**kwargs):
 
         df = pd.DataFrame(data)
 
-        # Aplicar orden dinámico si viene en kwargs
-        if "ordenar_por" in kwargs:
-            df = df.sort_values(by=kwargs["ordenar_por"])
+        # 🔥 Ordenar (lambda implícito en pandas)
+        if ordenar_por:
+            df = df.sort_values(by=ordenar_por)
 
-        # Aplicar filtro si viene en kwargs
-        if "filtro_nombre" in kwargs:
-            df = df[df["nombre"].str.contains(kwargs["filtro_nombre"], case=False)]
+        # 🔥 Filtrar
+        if filtro_nombre:
+            df = df[df["nombre"].str.contains(filtro_nombre, case=False, na=False)]
 
+        # 🔥 Asegurar carpeta
         ruta = "data/reporte.csv"
-        df.to_csv(ruta, index=False)
+        os.makedirs(os.path.dirname(ruta), exist_ok=True)
+
+        df.to_csv(ruta, index=False, encoding="utf-8")
 
         return f"Reporte generado en {ruta}"
 
